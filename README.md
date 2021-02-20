@@ -71,14 +71,29 @@ Uses total of 5 Amazon Web Services (AWS) <br />
 ![Picture19](https://user-images.githubusercontent.com/56866622/108587820-e5a1c080-7390-11eb-9a8c-a397c11d8f89.jpg)
 
 ## Software Setup
-### Install AWS Python Library
+### Install AWS Python Library On Raspberry Pi
 On RaspberryPi, install the following: <br /> _sudo pip install --upgrade --force-reinstall pip==9.0.3_ <br /> _sudo pip install AWSIoTPythonSDK --upgrade --disable-pip-version-check_ <br /> _sudo pip install --upgrade pip_
+### Install AWS CLI On Raspberry Pi
+On RaspberryPi, run : <br /> _sudo pip install awscli_ <br /> _sudo pip install awscli --upgrade_
+### Install Boto
+On RaspberryPi, run : <br /> _sudo pip install botocore_ <br /> _sudo pip install botocore --upgrade_ <br />
+_sudo pip install boto3 --upgrade_ <br />
+### Install Putty
+Download [Putty](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
+### Install WinSCP
+Downlaod [WinSCP](https://winscp.net/eng/download.php)
 
 
 ## Amazon Web Services Setup
 ### Getting an Amazon Web Service Account
 Get your own Amazon Web Service Account 
 [Register Here](https://portal.aws.amazon.com/billing/signup?nc2=h_ct&src=header_signup&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start)
+### AWS Credential File
+This file is needed to be stored in the Raspberry Pi and EC2 
+1. On AWS Account, click "Account Details"
+2. Click show button and copy the whole text <br /> ![awscred](https://user-images.githubusercontent.com/56866622/108590357-0cb2bf00-739e-11eb-845d-900073a93db2.jpg)
+3. Copy and store it in file "credentials"
+4. Create a directory in and store it in ~/.aws/credentials
 ### Connect Raspberry Pi to AWS
 1. Go to "IOT Core" Services > Click "Get Started" <br />
 2. Go "Manage" then choose "Things" and then "Register a thing"
@@ -109,6 +124,36 @@ Get your own Amazon Web Service Account
 4. Set action by choosing "Add action"
 5. Configure action and choose "Split Message into multiple columns of a DynamoDB table)
 6. It will look like <br /> ![dynamo](https://user-images.githubusercontent.com/56866622/108589481-66fd5100-7399-11eb-8318-784ff5adea8e.JPG)
+### Create bucket on S3
+1. Go to S3 and create bucket
+2. Enter name for bucket
+3. Choose "US East 1(North Virginia)" and create
+### Creating a new EC2 Instance
+1. Go to EC2
+2. Make sure server is on US East (N. Virginia)
+3. Launch Instance
+4. Choose a Amazon Machine Image (AMI) <br /> We choose Amazon Linux 2 AMI 64-bit (x86).
+5. For instance type, choose t2.mirco
+6. Then click “Next: Configure Instance Details”
+7. Enable "Auto-assign Pubic IP"
+8. Scroll till "Advanced Details and enter the follwing : <br /> 
+_sudo yum check-update_ <br /> 
+_sudo yum install -y amazon-linux-extras_ <br /> 
+_sudo amazon-linux-extras enable python3.8_ <br /> 
+_sudo yum clean metadata_ <br /> 
+_sudo yum install python38 -y_ <br /> 
+9. Add sufficient storage
+10. Add relevant tags <br /> We enter “Name” for the Key and “Python Web Server” as the Value
+11. Configure security group <br /> We did it with the following settings <br /> ![secgrp](https://user-images.githubusercontent.com/56866622/108590770-41277a80-73a0-11eb-8596-3ced0c6475f3.JPG)
+12. A SSH rule has by default been added for you so that you can SSH into the server later
+13. We will add a second rule to allow HTTP traffic as well.
+14. Click the “Add Rule” button. 
+15. Select “Custom TCP”, enter Port as “8001” and Source as “Anywhere” then "Save rules"
+16. Choose "Create a new key pair" and give it a name. <br /> We will use this to SSH into the EC2 server.
+
+
+
+
 
   
 
