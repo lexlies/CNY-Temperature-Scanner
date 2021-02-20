@@ -70,10 +70,45 @@ Uses total of 5 Amazon Web Services (AWS) <br />
 5. Connect the red wire of the water pump to the NC on the relay (most right). <br />
 ![Picture19](https://user-images.githubusercontent.com/56866622/108587820-e5a1c080-7390-11eb-9a8c-a397c11d8f89.jpg)
 
-
-
-
-
 ## Software Setup
+### Install AWS Python Library
+On RaspberryPi, install the following: <br /> _sudo pip install --upgrade --force-reinstall pip==9.0.3_ <br /> _sudo pip install AWSIoTPythonSDK --upgrade --disable-pip-version-check_ <br /> _sudo pip install --upgrade pip_
+
+
 ## Amazon Web Services Setup
+### Getting an Amazon Web Service Account
+Get your own Amazon Web Service Account 
+[Register Here](https://portal.aws.amazon.com/billing/signup?nc2=h_ct&src=header_signup&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start)
+### Connect Raspberry Pi to AWS
+1. Go to "IOT Core" Services > Click "Get Started" <br />
+2. Go "Manage" then choose "Things" and then "Register a thing"
+3. A thing represents a device whose status or data is stored in the AWS cloud <br /> Your Raspberry Pi will be your "thing"
+4. Give your Raspberry Pi a name and Create Certificates for it (Important!)
+5. Download all four links and keep it save
+6. For root, open it in a new tab and do a right-click, “Save As” when clicking on the link <br /> ![certs](https://user-images.githubusercontent.com/56866622/108588829-39fb6f00-7396-11eb-9595-f5df7124e2bc.JPG)
+7. Activate it
+### Create Security Policy for RPi
+1. On the left IOT Core dashboard, select Policies under the Secure sub-menu
+2. On the next page, choose “Create new policy”
+3. On the Create a policy page, key in the following configuration, can rename policy name to whatever you want <br /> ![policies](https://user-images.githubusercontent.com/56866622/108588953-e178a180-7396-11eb-9994-fed48ac13a7c.JPG)
+4. Then Create
+### Attach Security Policy and Thing to your certificate
+1. Click Security > Certificates
+2. You should see the X.509 certificate you created earlier
+3. Click the checkbox beside it, then click “Actions” button and choose “Attach Policy” 
+4. Check the policy you created earlier and click “Attach” button.
+5. Click “Actions” button and choose “Attach Thing” and attach your RaspberryPi to it.
+### Creating a DynamoDB
+1. Open Amazon DynamoDB console and "Create Table"
+2. Name your table
+3. Follow the attributes below <br /> ![atributes](https://user-images.githubusercontent.com/56866622/108589277-a7100400-7398-11eb-9679-635eeb43805b.JPG) 
+### Create rule to store MQTT message to DB
+1. In the AWS IoT console, in the left navigation pane, choose “Act”, then “Create a rule”
+2. Name the rule and add description (optional)
+3. For Rule Query statement : <br /> _SELECT * FROM 'sensors/temp'_
+4. Set action by choosing "Add action"
+5. Configure action and choose "Split Message into multiple columns of a DynamoDB table)
+6. It will look like <br /> ![dynamo](https://user-images.githubusercontent.com/56866622/108589481-66fd5100-7399-11eb-8318-784ff5adea8e.JPG)
+
+  
 
