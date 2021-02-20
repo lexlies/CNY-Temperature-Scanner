@@ -168,6 +168,8 @@ _sudo yum install python38 -y_ <br />
 
 3. Connect to webserver via public Ipv4 address with port 8001
 
+## Stay Safe and have a good Chinese New Year
+
 
 
 
