@@ -5,10 +5,8 @@ Our target audience is home owners who are expecting visitors over the Chinese N
 Our application takes the temperature of people visiting the house for Chinese New Year. 
 Our solution also take into consideration about the rules set by the government that there is a limit of 8 people for house visiting to prevent the spread of CoVid-19. [ Link to Rules ](https://www.straitstimes.com/singapore/visitors-per-household-to-be-capped-at-8-per-day-from-jan-26-limit-cny-visits-to-2-other)
 
-We also made a video showcasing our project [Link to video](https://youtu.be/FMSO4x-2tsA)
-
 ## How it works
-
+We also made a video showcasing our project [Link to video](https://youtu.be/FMSO4x-2tsA)
 
 ## System Infrastructure
 ![System](https://user-images.githubusercontent.com/56866622/108586416-5e9d1a00-7389-11eb-9c79-5c1deca7ce27.jpg)
@@ -34,9 +32,6 @@ Uses total of 5 Amazon Web Services (AWS) <br />
 9. On the Flask Webserver run on EC2, it is able to remotely control the state of red LED, green LED and the Buzzer.
 10. Flask server on EC2 will publish multiple topics, "/sensors/led/red", "/sensors/led/green" and "/sensors/buzzer"
 11. "listening_topic.py" will be running on the Raspberry Pi to listen to these topics to control red LED, green LED and the Buzzer.
-
-
-
 
 ## Hardware Setup
 
@@ -72,12 +67,15 @@ Uses total of 5 Amazon Web Services (AWS) <br />
 
 ## Software Setup
 ### Install AWS Python Library On Raspberry Pi
-On RaspberryPi, install the following: <br /> _sudo pip install --upgrade --force-reinstall pip==9.0.3_ <br /> _sudo pip install AWSIoTPythonSDK --upgrade --disable-pip-version-check_ <br /> _sudo pip install --upgrade pip_
+On RaspberryPi and EC2 , install the following: <br /> _sudo pip install --upgrade --force-reinstall pip==9.0.3_ <br /> _sudo pip install AWSIoTPythonSDK --upgrade --disable-pip-version-check_ <br /> _sudo pip install --upgrade pip_
 ### Install AWS CLI On Raspberry Pi
 On RaspberryPi, run : <br /> _sudo pip install awscli_ <br /> _sudo pip install awscli --upgrade_
 ### Install Boto
-On RaspberryPi, run : <br /> _sudo pip install botocore_ <br /> _sudo pip install botocore --upgrade_ <br />
+On RaspberryPi and EC2 , run : <br /> _sudo pip install botocore_ <br /> _sudo pip install botocore --upgrade_ <br />
 _sudo pip install boto3 --upgrade_ <br />
+### Install paho
+On RaspberryPi and EC2 , run : <br /> _sudo pip install paho-mqtt_
+
 ### Install Putty
 Download [Putty](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
 ### Install WinSCP
@@ -85,6 +83,7 @@ Downlaod [WinSCP](https://winscp.net/eng/download.php)
 
 
 ## Amazon Web Services Setup
+
 ### Getting an Amazon Web Service Account
 Get your own Amazon Web Service Account 
 [Register Here](https://portal.aws.amazon.com/billing/signup?nc2=h_ct&src=header_signup&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start)
@@ -150,6 +149,24 @@ _sudo yum install python38 -y_ <br />
 14. Click the “Add Rule” button. 
 15. Select “Custom TCP”, enter Port as “8001” and Source as “Anywhere” then "Save rules"
 16. Choose "Create a new key pair" and give it a name. <br /> We will use this to SSH into the EC2 server.
+
+### RaspberryPi Setup
+1. Connect to your Raspberry Pi 
+2. Copy files from raspberrypi folder into RaspberryPi
+3. Run all 3 files.
+
+### EC2 Setup
+1. Copy files from ec2 folder into EC2 instance <br /> We used Putty and WinSCP
+2. Create a virtual environment for that folder: <br /> _python3.8 -m venv ~/ec2/env_ 
+3. Start the virtual environment: <br /> source ~/ec2/env/bin/activate 
+4. Install boto3 flask numpy: <br /> pip3 install boto3 flask numpy
+5. Run "server.py"
+
+### Accessing Web Server
+1. Go to EC2 and go to instance
+2. Get public IPv4 address <br /> ![website](https://user-images.githubusercontent.com/56866622/108591567-5bfbee00-73a4-11eb-8dd5-3af16437d874.jpg)
+
+3. Connect to webserver via public Ipv4 address with port 8001
 
 
 
