@@ -5,8 +5,37 @@ Our target audience is home owners who are expecting visitors over the Chinese N
 Our application takes the temperature of people visiting the house for Chinese New Year. 
 Our solution also take into consideration about the rules set by the government that there is a limit of 8 people for house visiting to prevent the spread of CoVid-19. [ Link to Rules ](https://www.straitstimes.com/singapore/visitors-per-household-to-be-capped-at-8-per-day-from-jan-26-limit-cny-visits-to-2-other)
 
+We also made a video showcasing our project [Link to video](https://youtu.be/FMSO4x-2tsA)
+
+## How it works
+
+
 ## System Infrastructure
 ![System](https://user-images.githubusercontent.com/56866622/108586416-5e9d1a00-7389-11eb-9c79-5c1deca7ce27.jpg)
+
+Uses total of 5 Amazon Web Services (AWS) <br />
+
+1. IoT Core <br /> To connect to RaspberryPi 
+2. AWS Elastic Compute Cloud (EC2) <br /> To host web application on cloud server 
+3. DynamoDB  <br /> To store data on cloud database 
+4. AWS S3 <br /> To store image taken to S3 
+5. AWS Rekognition  <br /> Use the image stored on S3 for recognition 
+
+### Flow
+
+1. Starts with Raspberry Pi that runs "temp.py" which takes a photo if motion is detected
+2. Upload the photo to AWS S3
+3. Image stored on AWS will be used by Amazon Rekognition to determine if human
+4. If human is detected, the Infrared Thermometer will take temperature of the person 
+5. Arduino will run "temp.ino" and return values from Infrared Thermometer to RaspberryPi
+6. Upon receiving the value from Arduino, Raspberry Pi will publish the temperature to "/sensors/temp" topic via MQTT to AWS
+7. A rule is created to store the value in a table in DynamoDB
+8. Flask webserver hosted on AWS EC2 will obtain values from DynamoDB and display it on the webserver as a graph and a table
+9. On the Flask Webserver run on EC2, it is able to remotely control the state of red LED, green LED and the Buzzer.
+10. Flask server on EC2 will publish multiple topics, "/sensors/led/red", "/sensors/led/green" and "/sensors/buzzer"
+11. "listening_topic.py" will be running on the Raspberry Pi to listen to these topics to control red LED, green LED and the Buzzer.
+
+
 
 
 ## Hardware Setup
@@ -33,6 +62,14 @@ Our solution also take into consideration about the rules set by the government 
 ![hardware](https://user-images.githubusercontent.com/56866622/108586368-e8001c80-7388-11eb-8f44-d33ee8e74a10.jpg)
 ### Fritzing Diagram
 ![fritzing](https://user-images.githubusercontent.com/56866622/108586438-8d1af500-7389-11eb-9b25-de4f22e43324.jpg)
+### Arduino and Relay Setup 
+1. Connect the arduino to Raspberry Pi via a USB cable as shown below <br /> ![ardusb](https://user-images.githubusercontent.com/56866622/108587818-e4709380-7390-11eb-954e-3a1ffd4edcf7.jpg)
+2. Check the USB cable, that is to be used as power supply to the water pump, with a voltmeter and ensure that it outputs 5V as the submersible water pump requires 5V in order to be powered.  <br /> ![Picture18](https://user-images.githubusercontent.com/56866622/108587819-e5a1c080-7390-11eb-98ba-9ea36d4df21f.jpg)
+3. Connect the red wire of the USB cable to COM1 on the relay (center). 
+4. Connect the blue wire (ground wire) of the USB cable with the black wire of the water pump by twisting them together. You can tape them with an electrical tape for a stronger connection. 
+5. Connect the red wire of the water pump to the NC on the relay (most right). <br />
+![Picture19](https://user-images.githubusercontent.com/56866622/108587820-e5a1c080-7390-11eb-9a8c-a397c11d8f89.jpg)
+
 
 
 
