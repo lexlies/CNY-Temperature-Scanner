@@ -79,7 +79,7 @@ On RaspberryPi and EC2 , run : <br /> _sudo pip install paho-mqtt_
 ### Install Putty
 Download [Putty](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
 ### Install WinSCP
-Downlaod [WinSCP](https://winscp.net/eng/download.php)
+Download [WinSCP](https://winscp.net/eng/download.php)
 
 
 ## Amazon Web Services Setup
