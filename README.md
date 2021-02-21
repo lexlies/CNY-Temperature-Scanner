@@ -153,7 +153,11 @@ _sudo yum install python38 -y_ <br />
 ### RaspberryPi Setup
 1. Connect to your Raspberry Pi 
 2. Copy files from raspberrypi folder into RaspberryPi
-3. Run all 3 files.
+3. Run temp.py and listening_topic.py
+
+### Arduino Setup
+1. Upload temp.ino to arduino
+2. Run it
 
 ### EC2 Setup
 1. Copy files from ec2 folder into EC2 instance <br /> We used Putty and WinSCP
